@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { PrefetchPageLinks, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import RelatedProducts from "../components/related-product/RelatedProducts ";
-
+import { addToCart } from "../features/ProductSlice";
+import { toast } from "react-toastify";
 const Product = () => {
   const { Id } = useParams();
-  const { products, currency } = useSelector((store) => store.product);
+  const { products, currency, cartItems } = useSelector(
+    (store) => store.product
+  );
+  const dispatch = useDispatch();
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState(null);
   const [size, setSize] = useState("");
@@ -22,7 +26,17 @@ const Product = () => {
     fetchProductData();
   }, [products, Id]);
 
-  console.log(productData);
+  const handleAddToCart = () => {
+    if (!size) {
+      toast.error("Please select a size before adding to cart.");
+      return;
+    }
+
+    dispatch(addToCart({ itemId: productData._id, size: size }));
+    toast.success(`${productData.name} (Size ${size}) added to cart!`);
+  };
+
+  console.log(cartItems);
   return (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100 ">
       {/* PRODUCT IMAGE SECTION */}
@@ -84,7 +98,10 @@ const Product = () => {
               ))}
             </div>
           </div>
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+          <button
+            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
+            onClick={handleAddToCart}
+          >
             Add to cart
           </button>
           <hr className="mt-8 sm:w-4/5" />

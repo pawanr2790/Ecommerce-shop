@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import Layout from "./components/layout/layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 // Lazy load all pages
 const Home = lazy(() => import("./pages/Home"));
 const Collections = lazy(() => import("./pages/Collections"));

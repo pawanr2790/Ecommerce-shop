@@ -3,11 +3,12 @@ import { assets } from "../../assets/frontend_assets/assets";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toggleShowSearch } from "../../features/ProductSlice";
 import SideBar from "./SideBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { totalItems } = useSelector((store) => store.product);
   return (
     <div className="w-full flex justify-between items-center py-5 font-medium">
       <div
@@ -67,7 +68,7 @@ const Header = () => {
             className="w-5 cursor-pointer"
           />
           <p className="absolute -top-2 -right-2 w-4 h-4 bg-black text-white text-[8px] rounded-full flex items-center justify-center">
-            10
+            {totalItems}
           </p>
         </Link>
         <img
