@@ -1,5 +1,5 @@
 {
-  "name": "taxiwallah",
+  "name": "forever",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -20,6 +20,7 @@
     "react-router-dom": "^7.6.3",
     "react-toastify": "^11.0.5",
     "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
     "tailwindcss": "^4.1.11"
   },

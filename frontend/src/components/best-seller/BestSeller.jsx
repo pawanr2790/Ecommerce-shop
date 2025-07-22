@@ -8,7 +8,6 @@ const BestSeller = () => {
   const [bestSeller, setBestSeller] = useState([]);
   const textForBestSeller =
     "Discover our top-trending products loved by thousands. These customer favorites are selling fast — grab yours before they're gone!";
-  console.log(bestSeller);
   useEffect(() => {
     const best = products?.filter((product) => product.bestseller) || [];
     setBestSeller(best.slice(0, 5));

@@ -1,19 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { products } from "../assets/frontend_assets/assets";
+
 const initialState = {
   products: products,
   currency: "$",
   deliveryFees: 10,
   showSearch: false,
   search: "",
-  cartItems: {},
+  cartItems: [],
   totalItems: 0,
 };
 
 const calculateTotalItems = (cartItems) => {
-  return Object.values(cartItems).reduce((total, sizeMap) => {
-    return total + Object.values(sizeMap).reduce((sum, qty) => sum + qty, 0);
-  }, 0);
+  return cartItems.reduce((total, item) => total + item.quantity, 0);
 };
 
 export const ProductSlice = createSlice({
@@ -23,31 +22,42 @@ export const ProductSlice = createSlice({
     toggleShowSearch: (state) => {
       state.showSearch = !state.showSearch;
     },
+
     setSearch: (state, action) => {
       state.search = action.payload;
     },
 
     addToCart: (state, action) => {
-      const { itemId, size } = action.payload;
+      const { product, size } = action.payload;
+      const existingIndex = state.cartItems.find(
+        (item) => item._id === product._id && item.size === size
+      );
 
-      if (!state.cartItems[itemId]) {
-        // Step 1: item does not exist, so create it with the selected size
-        state.cartItems[itemId] = {}; // create empty size map
-        state.cartItems[itemId][size] = 1; // set quantity 1 for that size
+      if (existingIndex) {
+        existingIndex.quantity += 1;
       } else {
-        // Step 2: item exists
-        if (!state.cartItems[itemId][size]) {
-          // size doesn't exist yet
-          state.cartItems[itemId][size] = 1;
-        } else {
-          // size already exists, just increment
-          state.cartItems[itemId][size] += 1;
-        }
+        state.cartItems.push({
+          ...product,
+          quantity: 1,
+          size,
+        });
       }
+
+      state.totalItems = calculateTotalItems(state.cartItems);
+    },
+
+    removeItemFromCart: (state, action) => {
+      const { itemId, size } = action.payload;
+      state.cartItems = state.cartItems.filter(
+        (item) => !(item._id === itemId && item.size === size)
+      );
       state.totalItems = calculateTotalItems(state.cartItems);
     },
   },
 });
 
-export const { toggleShowSearch, setSearch, addToCart } = ProductSlice.actions;
+// eslint-disable-next-line react-refresh/only-export-components
+export const { toggleShowSearch, setSearch, addToCart, removeItemFromCart } =
+  ProductSlice.actions;
+
 export default ProductSlice.reducer;

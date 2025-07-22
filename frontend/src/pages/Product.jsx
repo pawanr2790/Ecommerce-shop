@@ -32,7 +32,7 @@ const Product = () => {
       return;
     }
 
-    dispatch(addToCart({ itemId: productData._id, size: size }));
+    dispatch(addToCart({ product: productData, size }));
     toast.success(`${productData.name} (Size ${size}) added to cart!`);
   };
 
