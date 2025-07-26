@@ -8,7 +8,7 @@ const Layout = () => (
   <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
     <Header />
     <SearchBar />
-    <main style={{ flex: 1, padding: "1rem" }}>
+    <main style={{ flex: 1 }}>
       <Outlet />
     </main>
     <Footer />

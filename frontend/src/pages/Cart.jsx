@@ -1,9 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { assets } from "../assets/frontend_assets/assets";
 import { removeItemFromCart } from "../features/ProductSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems, currency } = useSelector((store) => store.product);
 
   const handleRemove = (itemId, size) => {
@@ -20,7 +22,9 @@ const Cart = () => {
 
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
-      <h1 className="text-2xl md:text-3xl font-semibold mb-6">Your Cart</h1>
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6 prata-regular">
+        Your Cart
+      </h1>
 
       {cartItems.length === 0 ? (
         <p className="text-gray-500 text-center">Your cart is empty.</p>
@@ -82,16 +86,38 @@ const Cart = () => {
       )}
 
       {cartItems.length > 0 && (
-        <div className="mt-6 text-right text-xl font-semibold space-y-2 text-gray-400">
-          <p>
-            price: {currency} {totalPrice.toFixed(2)}
-          </p>
-          <p>
-            Shipping : {currency} {shippingCharge.toFixed(2)}
-          </p>
-          <p className="text-green-700">
-            Final Total: {currency} {finalTotal.toFixed(2)}
-          </p>
+        <div className="mt-10 max-w-md ml-auto border-t pt-6">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4 border-b pb-2 prata-regular">
+            CART <span className="text-black prata-regular">TOTALS</span>
+          </h2>
+          <div className="space-y-3 text-sm text-gray-700">
+            <div className="flex justify-between border-b pb-2">
+              <span>Subtotal</span>
+              <span>
+                {currency} {totalPrice.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between border-b pb-2">
+              <span>Shipping Fee</span>
+              <span>
+                {currency} {shippingCharge.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between font-semibold text-black text-base">
+              <span>Total</span>
+              <span>
+                {currency} {finalTotal.toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              navigate("/placeOrder");
+            }}
+            className="mt-6 w-full bg-black text-white text-sm font-medium py-3 tracking-wide hover:bg-gray-500 hover:text-black"
+          >
+            PROCEED TO CHECKOUT
+          </button>
         </div>
       )}
     </div>
