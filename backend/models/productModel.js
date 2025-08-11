@@ -15,14 +15,13 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subcategory: {
+    subCategory: {
       type: String,
       required: true,
     },
-    image: {
+    images: {
       type: [String],
       required: true,
-      validate: [(val) => val.length > 0, "At least one image is required"],
     },
     description: {
       type: String,
@@ -32,7 +31,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    bestseller: {
+    bestSeller: {
       type: Boolean,
       required: true,
     },
@@ -40,7 +39,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const productModel =
+const Product =
   mongoose.models.product || mongoose.model("Product", productSchema);
 
-export default productModel;
+export default Product;
