@@ -5,7 +5,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "",
+    name: "",
   });
 
   const handleChange = (e) => {
@@ -18,13 +18,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      currentState === "SignUp" &&
-      formData.password !== formData.confirmPassword
-    ) {
-      alert("Passwords do not match");
-      return;
-    }
   };
 
   return (
@@ -35,6 +28,18 @@ const Login = () => {
       <h2 className="text-3xl font-semibold text-gray-700 mb-4 border-b pb-2 prata-regular">
         {currentState}
       </h2>
+
+      {currentState === "SignUp" && (
+        <input
+          type="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Email"
+          className="border w-full px-4 py-2  focus:outline-none  "
+          required
+        />
+      )}
 
       <input
         type="email"
@@ -55,18 +60,6 @@ const Login = () => {
         className="border w-full px-4 py-2  focus:outline-none  "
         required
       />
-
-      {currentState === "SignUp" && (
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          placeholder="Confirm Password"
-          className="border w-full px-4 py-2 focus:outline-none  "
-          required
-        />
-      )}
 
       <button
         type="submit"

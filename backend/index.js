@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import ConnectDB from "./db/db.js";
 import ConnectCoudinary from "./middleware/cloudinary.js";
 import userRouter from "./routes/userRoutes.js";
+import productRouter from "./routes/productRoutes.js";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 const port = process.env.PORT || 3000;
 
 ConnectDB()
