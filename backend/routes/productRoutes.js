@@ -6,11 +6,14 @@ import {
   singleProductInfo,
 } from "../controllers/productController.js";
 import upload from "../middleware/multer.js";
+import adminAuth from "../middleware/adminAuth.js";
 
 const productRouter = express.Router();
 
+// Only admin can add a product
 productRouter.post(
   "/addProduct",
+  adminAuth,
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
@@ -19,8 +22,14 @@ productRouter.post(
   ]),
   addProduct
 );
+
+// Anyone can view product list
 productRouter.get("/listProduct", listProducts);
+
+// Anyone can view single product details
 productRouter.get("/singleProductInfo", singleProductInfo);
-productRouter.post("/removeProduct", removeProduct);
+
+// Only admin can remove a product
+productRouter.post("/removeProduct", adminAuth, removeProduct);
 
 export default productRouter;
